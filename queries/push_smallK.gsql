@@ -1,0 +1,15 @@
+USE GRAPH lsqb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY push_smallk(){
+TYPEDEF TUPLE<UINT forumID> RESULT;
+HeapAccum<RESULT>(20, forumID ASC) @@result;
+
+forums = SELECT f
+        FROM Forum:f
+        Accum @@result+=RESULT(f.id);
+
+PRINT @@result;
+
+
+}

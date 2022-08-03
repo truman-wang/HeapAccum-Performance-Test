@@ -1,0 +1,15 @@
+USE GRAPH lsqb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY push_largeK(){
+TYPEDEF TUPLE<UINT commentID> RESULT;
+HeapAccum<RESULT>(5656073047, commentID ASC) @@result;
+
+forums = SELECT c
+        FROM Comment:c
+        Accum @@result+=RESULT(c.id);
+
+PRINT @@result;
+
+
+}

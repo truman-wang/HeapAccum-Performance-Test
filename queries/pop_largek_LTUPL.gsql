@@ -1,0 +1,24 @@
+USE GRAPH lsqb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY push_largeK(){
+TYPEDEF TUPLE<UINT forumID, STRING forumTitle, DATETIME forumCreationDate> RESULT;
+HeapAccum<RESULT>(100000000, forumCreationDate ASC, forumTitle ASC, forumID ASC) @@result;
+
+forums = SELECT f
+        FROM Forum:f
+        Accum @@result+=RESULT(f.id, f.title, f.creationDate);
+
+//method1 (in Accum after comma)      ,@@result.pop();
+ //method2 (in post-accum) Post-Accum @@result.pop();
+//method3       
+WHILE k != 0 DO
+@@result.pop();
+k--;
+END;
+
+
+PRINT @@result;
+
+
+}

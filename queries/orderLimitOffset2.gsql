@@ -1,0 +1,12 @@
+USE GRAPH lsqb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY OrderLimitOffset2(INT k,INT j)
+{
+        forums = SELECT f 
+            FROM Forum:f
+            ORDER BY f.id
+            LIMIT k OFFSET j;
+
+        PRINT forums;
+}
