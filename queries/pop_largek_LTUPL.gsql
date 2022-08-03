@@ -1,7 +1,7 @@
 USE GRAPH lsqb
 SET syntax_version="v2"
 
-CREATE OR REPLACE DISTRIBUTED QUERY push_largeK(){
+CREATE OR REPLACE DISTRIBUTED QUERY pop_largek_LTUPLE(){
 TYPEDEF TUPLE<UINT forumID, STRING forumTitle, DATETIME forumCreationDate> RESULT;
 HeapAccum<RESULT>(100000000, forumCreationDate ASC, forumTitle ASC, forumID ASC) @@result;
 
