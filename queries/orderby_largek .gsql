@@ -1,4 +1,4 @@
-USE GRAPH lsqb
+USE GRAPH ldbc_snb
 SET syntax_version="v2"
 
 CREATE OR REPLACE DISTRIBUTED QUERY orderby_largek(){
@@ -10,7 +10,7 @@ forums = SELECT f
         Accum @@result+=RESULT(f.id)
         ORDER BY f.id;
 
-PRINT @@result;
+PRINT @@result.size();
 
 
 }

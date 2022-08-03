@@ -13,7 +13,8 @@ forums = SELECT f
         Accum @@result+=RESULT(f.id);
  //method1 (in Accum after comma)      ,@@result.pop();
  //method2 (in post-accum) Post-Accum @@result.pop();
-//method3       
+//method3 
+k=@@result.size();      
 WHILE k != 0 DO
 @@result.pop();
 k--;

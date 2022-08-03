@@ -1,4 +1,4 @@
-USE GRAPH lsqb
+USE GRAPH ldbc_snb
 SET syntax_version="v2"
 
 CREATE OR REPLACE DISTRIBUTED QUERY capacityLimit(){
@@ -9,7 +9,7 @@ forums = SELECT c
         FROM Comment:c
         Accum @@result+=RESULT(c.id);
 
-PRINT @@result;
+PRINT @@result.size();
 
 
 }
