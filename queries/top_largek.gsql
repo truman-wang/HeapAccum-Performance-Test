@@ -3,20 +3,16 @@ SET syntax_version="v2"
 
 CREATE OR REPLACE DISTRIBUTED QUERY top_largek(){
 
-INT k=100000000
-
 TYPEDEF TUPLE<UINT forumID> RESULT;
-HeapAccum<RESULT>(k, forumID ASC) @@result;
+HeapAccum<RESULT>(forumID ASC) @@result;
 
 forums = SELECT f
         FROM Forum:f
         Accum @@result+=RESULT(f.id);
- //method1 (in Accum after comma)      ,@@result.pop();
- //method2 (in post-accum) Post-Accum @@result.pop();
-//method3       
+INT k = @@result.size();   
 WHILE k != 0 DO
 @@result.top();
-k--;
+k=k-1;
 END;
 
 PRINT @@result;

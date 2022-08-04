@@ -3,20 +3,18 @@ SET syntax_version="v2"
 
 CREATE OR REPLACE DISTRIBUTED QUERY pop_smallk(){
 
-INT k=20
+
 
 TYPEDEF TUPLE<UINT forumID> RESULT;
-HeapAccum<RESULT>(k, forumID ASC) @@result;
+HeapAccum<RESULT>(20, forumID ASC) @@result;
 
 forums = SELECT f
         FROM Forum:f
         Accum @@result+=RESULT(f.id);
- //method1 (in Accum after comma)      ,@@result.pop();
- //method2 (in post-accum) Post-Accum @@result.pop();
-//method3       
+INT k = @@result.size();     
 WHILE k != 0 DO
 @@result.pop();
-k--;
+k=k-1;
 END;
 
 PRINT @@result;

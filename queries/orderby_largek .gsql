@@ -3,7 +3,7 @@ SET syntax_version="v2"
 
 CREATE OR REPLACE DISTRIBUTED QUERY orderby_largek(){
 TYPEDEF TUPLE<UINT forumID> RESULT;
-HeapAccum<RESULT>(100000000, forumID ASC) @@result;
+HeapAccum<RESULT>(forumID ASC) @@result;
 
 forums = SELECT f
         FROM Forum:f
