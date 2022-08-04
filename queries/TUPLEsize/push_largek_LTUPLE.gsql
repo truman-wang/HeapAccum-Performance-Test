@@ -1,22 +1,15 @@
 USE GRAPH lsqb
 SET syntax_version="v2"
 
-CREATE OR REPLACE DISTRIBUTED QUERY pop_largek_LTUPLE(){
+CREATE OR REPLACE DISTRIBUTED QUERY push_largeK_LTUPLE(INT k){
 TYPEDEF TUPLE<UINT forumID, STRING forumTitle, DATETIME forumCreationDate> RESULT;
-HeapAccum<RESULT>(forumCreationDate ASC, forumTitle ASC, forumID ASC) @@result;
+HeapAccum<RESULT>(k,forumCreationDate ASC, forumTitle ASC, forumID ASC) @@result;
 
 forums = SELECT f
         FROM Forum:f
         Accum @@result+=RESULT(f.id, f.title, f.creationDate);
 
-INT k =  @@result.size()    
-WHILE k != 0 DO
-@@result.pop();
-k=k-1;
-END;
-
-
-PRINT @@result;
+PRINT @@result.size();
 
 
 }

@@ -1,7 +1,4 @@
-USE GRAPH ldbc_snb
-SET syntax_version="v2"
-
-CREATE OR REPLACE DISTRIBUTED QUERY push_largeK(){
+CREATE OR REPLACE DISTRIBUTED QUERY push_largeK() for graph ldbc_snb syntax v2{
 TYPEDEF TUPLE<UINT forumID> RESULT;
 HeapAccum<RESULT>(forumID ASC) @@result;
 
@@ -10,6 +7,4 @@ forums = SELECT f
         Accum @@result+=RESULT(f.id);
 
 PRINT @@result.size();
-
-
 }

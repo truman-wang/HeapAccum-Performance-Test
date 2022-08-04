@@ -3,11 +3,11 @@ SET syntax_version="v2"
 
 CREATE OR REPLACE DISTRIBUTED QUERY push_largeK(){
 TYPEDEF TUPLE<UINT forumID> RESULT;
-HeapAccum<RESULT>(forumID ASC) @@result;
+HeapAccum<RESULT>(forumID ASC) @result;
 
 forums = SELECT f
         FROM Forum:f
-        Post-Accum @@result+=RESULT(f.id);
+        Post-Accum @result+=RESULT(f.id);
 
 PRINT @@result;
 

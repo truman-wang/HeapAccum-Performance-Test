@@ -1,0 +1,18 @@
+USE GRAPH lsqb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY pop_DG(INT k){
+TYPEDEF TUPLE<UINT forumID> RESULT;
+HeapAccum<RESULT>(k, forumID ASC) @@result;
+
+forums = SELECT f
+        FROM Forum:f
+        Accum @@result+=RESULT(f.id);
+k = @@result.size();  
+WHILE k != 0 DO
+@@result.pop();
+k=k-1;
+END;
+
+PRINT @@result.size();
+}

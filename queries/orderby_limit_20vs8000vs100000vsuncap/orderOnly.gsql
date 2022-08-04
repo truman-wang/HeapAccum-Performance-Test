@@ -1,0 +1,10 @@
+USE GRAPH lsqb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY orderOnly()
+{
+        forums = SELECT f 
+            FROM Forum:f
+            ORDER BY f.id;
+
+}

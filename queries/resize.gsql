@@ -1,23 +1,17 @@
 USE GRAPH lsqb
 SET syntax_version="v2"
 
-CREATE OR REPLACE DISTRIBUTED QUERY pop_smallk(){
-
-
-
+CREATE OR REPLACE DISTRIBUTED QUERY resize(){
 TYPEDEF TUPLE<UINT forumID> RESULT;
-HeapAccum<RESULT>(20, forumID ASC) @@result;
+HeapAccum<RESULT>(forumID ASC) @@result;
 
 forums = SELECT f
         FROM Forum:f
         Accum @@result+=RESULT(f.id);
-INT k = @@result.size();     
+INT k = @@result.size();    
 WHILE k != 0 DO
-@@result.pop();
+@@result.resize(k);
 k=k-1;
 END;
-
-PRINT @@result;
-
-
+PRINT @@result.size();
 }
