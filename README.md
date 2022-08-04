@@ -5,6 +5,8 @@ default: (global vs local, distributed vs single, )
 large size: 100,000
 mid size:8000
 small:20
+#k=20, 8000, 100000, and uncap
+#j=10, 1000, 10000, 
 Forum: 4611436
 INT k: 20 8000 100000 5000000
 no PRINT or PRINT size()

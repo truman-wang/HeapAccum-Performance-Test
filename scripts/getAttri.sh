@@ -4,6 +4,12 @@ cwd=$(cd $(dirname $0) && pwd)
 cd $cwd
 
 source ./INPUT
+#cat INPUT
+##!/bin/bash
+#SKIP=false
+#RUN_TIMES=3
+#SINGLE_GPR=false
+#DISTRIBUTED_ENABLE=false
 
 log_file=$cwd/LOG
 result_file=$cwd/RESULT
