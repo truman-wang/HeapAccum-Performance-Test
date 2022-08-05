@@ -1,9 +1,0 @@
-Results
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   222  100   222    0     0   216k      0 --:--:-- --:--:-- --:--:--  216k
-{"version":{"edition":"enterprise","api":"v2","schema":0},"error":true,"message":"Endpoint is not found from url = /query/ldbc_snb/orderby_largek, please use GET /endpoints to list all valid endpoints.","code":"REST-1000"}
-real	0m0.008s
-user	0m0.004s
-sys	0m0.003s
-{"version":{"edition":"enterprise","api":"v2","schema":0},"error":true,"message":"Endpoint is not found from url = /query/ldbc_snb/orderby_largek, please use GET /endpoints to list all valid endpoints.","code":"REST-1000"}
