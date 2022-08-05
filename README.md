@@ -22,3 +22,4 @@ automatically calculate avg time
 
 #still need -g ldbc_snb in cmd line, not useful when defined in query?
 gsql "run query resize"
+#D denotes distributed, S:single mode, G: global accumulator, L:local accumulator

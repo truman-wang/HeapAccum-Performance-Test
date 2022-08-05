@@ -1,0 +1,12 @@
+USE GRAPH ldbc_snb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY pop_DL(){
+TYPEDEF TUPLE<UINT postID,UINT postLength, STRING postIP> RESULT;
+HeapAccum<RESULT>(postID ASC) @result;
+
+forums = SELECT f
+        FROM Forum:f -(CONTAINER_OF>)- Post:p
+        Accum f.@result += RESULT(p.id, p.length, p.locationIP)
+        Post-Accum f.@result.pop();
+}
