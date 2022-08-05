@@ -1,0 +1,13 @@
+USE GRAPH ldbc_snb
+SET syntax_version="v2"
+#k=20, 8000, 100000, and uncap
+#j=10, 1000, 10000, 
+CREATE OR REPLACE DISTRIBUTED QUERY OrderLimitOffset(INT k,INT j)
+{
+        forums = SELECT f 
+            FROM Forum:f
+            ORDER BY f.id
+            LIMIT j,k;
+
+       
+}
