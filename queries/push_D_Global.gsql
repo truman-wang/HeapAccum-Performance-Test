@@ -1,7 +1,7 @@
 USE GRAPH ldbc_snb
 SET syntax_version="v2"
 
-CREATE OR REPLACE QUERY push_DG(INT k){
+CREATE OR REPLACE DISTRIBUTED QUERY push_d_global(INT k){
 TYPEDEF TUPLE<UINT forumID> RESULT;
 HeapAccum<RESULT>(k, forumID ASC) @@result;
 

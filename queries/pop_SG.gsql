@@ -8,10 +8,10 @@ HeapAccum<RESULT>(k, forumID ASC) @@result;
 forums = SELECT f
         FROM Forum:f
         Accum @@result+=RESULT(f.id);
-k = @@result.size();  
-WHILE k != 0 DO
+INT n = @@result.size();  
+WHILE n != 0 DO
 @@result.pop();
-k=k-1;
+n=n-1;
 END;
 
 PRINT @@result.size();
