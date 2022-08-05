@@ -19,3 +19,6 @@ run each query for multiple times like 10 times
 pass substitution parameters to query
 output the query time
 automatically calculate avg time
+
+#still need -g ldbc_snb in cmd line, not useful when defined in query?
+gsql "run query resize"

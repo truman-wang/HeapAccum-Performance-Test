@@ -9,7 +9,7 @@ HeapAccum<RESULT>(forumID ASC) @@result;
 forums = SELECT f
         FROM Forum:f
         Accum @@result+=RESULT(f.id);
-k = @@result.size();   
+INT k = @@result.size();   
 WHILE k != 0 DO
 @@result.top();
 k=k-1;
