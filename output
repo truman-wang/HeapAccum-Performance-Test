@@ -1,1 +1,6 @@
 Results
+orderby+limit=20 avg: 192
+orderby+limit=8000 avg: 219
+orderby+limit=100000 avg: 392
+orderby+limit=5000000 avg: 6933
+resize avg: 1938
