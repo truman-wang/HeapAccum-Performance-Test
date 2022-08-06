@@ -2,30 +2,15 @@
 #add gsql script to graph first
 
 #print result to output
-touch output
-echo Results |& tee  /home/tigergraph/HeapAccum-Performance-Test/output
+
+echo Results:"unit in ms" |& tee  /home/tigergraph/HeapAccum-Performance-Test/output
 t=3
 
 
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl --fail -u tigergraph:tigergraph -X POST "http://localhost:14240/gsqlserver/interpreted_query?k=20" -d 'INTERPRET QUERY (INT k) FOR GRAPH ldbc_snb {TYPEDEF TUPLE<UINT forumID> RESULT;
-HeapAccum<RESULT>(k, forumID ASC) @@result;
-forums = SELECT f
-        FROM Forum:f
-        Accum @@result+=RESULT(f.id);
-PRINT @@result.size();
- }') &> /dev/null
-done
-q_end=$(date +%s%N | cut -b1-13)
-q_time=$((($q_end-$q_start)/$t))
-echo interpreted_push=20 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
-
-q_start=$(date +%s%N | cut -b1-13)
-for i in $(seq 1 $t)
-do
-(curl --fail -u tigergraph:tigergraph -X POST "http://localhost:14240/gsqlserver/interpreted_query?k=100000" -d 'INTERPRET QUERY (INT k) FOR GRAPH ldbc_snb {TYPEDEF TUPLE<UINT forumID> RESULT;
+(curl --fail -u tigergraph:tigergraph -X POST -H "GSQL-TIMEOUT: 500000" "http://localhost:14240/gsqlserver/interpreted_query?k=100000" -d 'INTERPRET QUERY (INT k) FOR GRAPH ldbc_snb {TYPEDEF TUPLE<UINT forumID> RESULT;
 HeapAccum<RESULT>(k, forumID ASC) @@result;
 forums = SELECT f
         FROM Forum:f
@@ -40,7 +25,22 @@ echo interpreted_push=100000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl --fail -u tigergraph:tigergraph -X POST "http://localhost:14240/gsqlserver/interpreted_query?k=5000000" -d 'INTERPRET QUERY (INT k) FOR GRAPH ldbc_snb {TYPEDEF TUPLE<UINT forumID> RESULT;
+(curl --fail -u tigergraph:tigergraph -X POST -H "GSQL-TIMEOUT: 500000" "http://localhost:14240/gsqlserver/interpreted_query?k=1000000" -d 'INTERPRET QUERY (INT k) FOR GRAPH ldbc_snb {TYPEDEF TUPLE<UINT forumID> RESULT;
+HeapAccum<RESULT>(k, forumID ASC) @@result;
+forums = SELECT f
+        FROM Forum:f
+        Accum @@result+=RESULT(f.id);
+PRINT @@result.size();
+ }') &> /dev/null
+done
+q_end=$(date +%s%N | cut -b1-13)
+q_time=$((($q_end-$q_start)/$t))
+echo interpreted_push=1000000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+
+q_start=$(date +%s%N | cut -b1-13)
+for i in $(seq 1 $t)
+do
+(curl --fail -u tigergraph:tigergraph -X POST -H "GSQL-TIMEOUT: 5000000" "http://localhost:14240/gsqlserver/interpreted_query?k=5000000" -d 'INTERPRET QUERY (INT k) FOR GRAPH ldbc_snb {TYPEDEF TUPLE<UINT forumID> RESULT;
 HeapAccum<RESULT>(k, forumID ASC) @@result;
 forums = SELECT f
         FROM Forum:f
@@ -53,7 +53,7 @@ q_time=$((($q_end-$q_start)/$t))
 echo interpreted_push=5000000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 
-echo UDF and Distributed mode results |& tee  /home/tigergraph/HeapAccum-Performance-Test/output
+echo UDF and Distributed mode results |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
@@ -67,20 +67,20 @@ echo orderby+limit=20 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Perfor
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl -X GET 'http://127.0.0.1:9000/query/ldbc_snb/OrderLimit?k=8000') &> /dev/null
-done
-q_end=$(date +%s%N | cut -b1-13)
-q_time=$((($q_end-$q_start)/$t))
-echo orderby+limit=8000 avg:  $q_time |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
-
-q_start=$(date +%s%N | cut -b1-13)
-for i in $(seq 1 $t)
-do
 (curl -X GET 'http://127.0.0.1:9000/query/ldbc_snb/OrderLimit?k=100000') &> /dev/null
 done
 q_end=$(date +%s%N | cut -b1-13)
 q_time=$((($q_end-$q_start)/$t))
 echo orderby+limit=100000 avg:  $q_time |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+
+q_start=$(date +%s%N | cut -b1-13)
+for i in $(seq 1 $t)
+do
+(curl -X GET 'http://127.0.0.1:9000/query/ldbc_snb/OrderLimit?k=1000000') &> /dev/null
+done
+q_end=$(date +%s%N | cut -b1-13)
+q_time=$((($q_end-$q_start)/$t))
+echo orderby+limit=1000000 avg:  $q_time |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
@@ -104,20 +104,20 @@ echo orderby+limit+50%offset=20 avg:  $q_time |& tee -a /home/tigergraph/HeapAcc
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl -X GET 'http://127.0.0.1:9000/query/ldbc_snb/OrderLimit?k=8000&j=4000') &> /dev/null
-done
-q_end=$(date +%s%N | cut -b1-13)
-q_time=$((($q_end-$q_start)/$t))
-echo orderby+limit+50%offset=8000 avg:  $q_time |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
-
-q_start=$(date +%s%N | cut -b1-13)
-for i in $(seq 1 $t)
-do
 (curl -X GET 'http://127.0.0.1:9000/query/ldbc_snb/OrderLimit?k=100000&j=50000') &> /dev/null
 done
 q_end=$(date +%s%N | cut -b1-13)
 q_time=$((($q_end-$q_start)/$t))
 echo orderby+limit+50%offset=100000 avg:  $q_time |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+
+q_start=$(date +%s%N | cut -b1-13)
+for i in $(seq 1 $t)
+do
+(curl -X GET 'http://127.0.0.1:9000/query/ldbc_snb/OrderLimit?k=1000000&j=500000') &> /dev/null
+done
+q_end=$(date +%s%N | cut -b1-13)
+q_time=$((($q_end-$q_start)/$t))
+echo orderby+limit+50%offset=1000000 avg:  $q_time |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
@@ -151,20 +151,20 @@ echo pop_DG=20 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-T
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/pop_DG?k=8000') &> /dev/null
-done
-q_end=$(date +%s%N | cut -b1-13)
-q_time=$((($q_end-$q_start)/$t))
-echo pop_DG=8000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
-
-q_start=$(date +%s%N | cut -b1-13)
-for i in $(seq 1 $t)
-do
 (curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/pop_DG?k=100000') &> /dev/null
 done
 q_end=$(date +%s%N | cut -b1-13)
 q_time=$((($q_end-$q_start)/$t))
 echo pop_DG=100000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+
+q_start=$(date +%s%N | cut -b1-13)
+for i in $(seq 1 $t)
+do
+(curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/pop_DG?k=1000000') &> /dev/null
+done
+q_end=$(date +%s%N | cut -b1-13)
+q_time=$((($q_end-$q_start)/$t))
+echo pop_DG=1000000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
@@ -230,22 +230,22 @@ echo push_d_global=20 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Perfor
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/push_d_global?k=8000') &> /dev/null
+(curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/push_d_global?k=100000') &> /dev/null
 done
 q_end=$(date +%s%N | cut -b1-13)
 q_time=$((($q_end-$q_start)/$t))
-echo push_d_global=8000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+echo push_d_global=100000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 
 #push distributed global
 q_start=$(date +%s%N | cut -b1-13)
 for i in $(seq 1 $t)
 do
-(curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/push_d_global?k=100000') &> /dev/null
+(curl -X GET -H "GSQL-TIMEOUT: 500000" 'http://127.0.0.1:9000/query/ldbc_snb/push_d_global?k=1000000') &> /dev/null
 done
 q_end=$(date +%s%N | cut -b1-13)
 q_time=$((($q_end-$q_start)/$t))
-echo push_d_global=100000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+echo push_d_global=1000000 avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 
 #push distributed global
