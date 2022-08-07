@@ -14,3 +14,16 @@ orderby+limit+50%offset=5000000 avg: 8113
 order by only avg: 3201
 pop_DG=20 avg: 165
 pop_DG=100000 avg: 102809
+pop_DG=1000000 avg: 500253
+pop_DG=5000000 avg: 500234
+pop_DG avg: 9863
+pop_LTUPLE avg: 500300
+pop_SG avg: 500246
+pop_SL avg: 500304
+push_d_global=20 avg: 500310
+push_d_global=100000 avg: 500310
+push_d_global=1000000 avg: 500316
+push_d_global=5000000 avg: 500305
+push_DG avg: 500257
+push_DL avg: 500164
+push_LTUPLE avg: 500225
