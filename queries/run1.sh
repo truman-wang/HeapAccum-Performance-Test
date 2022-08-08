@@ -183,7 +183,7 @@ do
 done
 q_end=$(date +%s%N | cut -b1-13)
 q_time=$((($q_end-$q_start)/$t))
-echo pop_DG avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
+echo pop_DL avg:  $q_time  |& tee -a /home/tigergraph/HeapAccum-Performance-Test/output
 
 #pop distributed large tuple 
 q_start=$(date +%s%N | cut -b1-13)

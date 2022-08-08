@@ -1,0 +1,46 @@
+Results:unit in ms
+interpreted_push=100000 avg: 6465
+interpreted_push=1000000 avg: 20709
+interpreted_push=5000000 avg: 7250
+UDF and Distributed mode results
+orderby+limit=20 avg: 102
+orderby+limit=100000 avg: 256
+orderby+limit=1000000 avg: 1474
+orderby+limit=5000000 avg: 5656
+orderby+limit+50%offset=20 avg: 130
+orderby+limit+50%offset=100000 avg: 289
+orderby+limit+50%offset=1000000 avg: 1481
+orderby+limit+50%offset=5000000 avg: 5174
+order by only avg: 2751
+pop_DG=20 avg: 84
+pop_DG=100000 avg: 81825
+pop_DG=1000000 avg: 500292
+pop_DG=5000000 avg: 500304
+pop_DG avg: 4469
+pop_LTUPLE avg: 500301
+pop_SG avg: 500347
+pop_SL avg: 6599
+push_d_global=20 avg: 113
+push_d_global=100000 avg: 189
+push_d_global=1000000 avg: 571
+push_d_global=5000000 avg: 921
+push_DG avg: 94543
+push_DL avg: 3822
+push_LTUPLE avg: 5190
+push_SG avg: 11604
+push_SL avg: 6283
+resize avg: 2081
+top avg: 1738
+single_GPR mode results
+push_d_global=20 avg: 84
+push_d_global=100000 avg: 150
+push_d_global=5000000 avg: 814
+push_d_global=20 avg:
+push_d_global=100000 avg:
+push_d_global=5000000 avg:
+push_d_global=20 avg:
+push_d_global=100000 avg:
+push_d_global=5000000 avg:
+push_UDF_global=20 avg: 294
+push_UDF_global=100000 avg: 361
+push_UDF_global=5000000 avg: 383
