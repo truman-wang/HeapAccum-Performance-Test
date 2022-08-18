@@ -1,1 +1,26 @@
 Results:unit in ms
+interpreted_push=100000 avg: 9250
+interpreted_push=1000000 avg: 30692
+interpreted_push=5000000 avg: 8720
+UDF and Distributed mode results
+orderby+limit=20 avg: 119
+orderby+limit=100000 avg: 306
+orderby+limit=1000000 avg: 1650
+orderby+limit=5000000 avg: 6905
+orderby+limit+50%offset=20 avg: 132
+orderby+limit+50%offset=100000 avg: 306
+orderby+limit+50%offset=1000000 avg: 1673
+orderby+limit+50%offset=5000000 avg: 6542
+order by only avg: 3290
+pop_DG=20 avg: 107
+pop_DG=100000 avg: 194
+pop_DG=1000000 avg: 746
+pop_DG=5000000 avg: 2043
+pop_DL avg: 4373
+pop_LTUPLE avg: 19240
+pop_SG avg: 1923
+pop_SL avg: 7717
+push_d_global=20 avg: 146
+push_d_global=100000 avg: 220
+push_d_global=1000000 avg: 678
+push_d_global=5000000 avg: 1019
