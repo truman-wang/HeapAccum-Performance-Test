@@ -1,0 +1,16 @@
+USE GRAPH ldbc_snb
+SET syntax_version="v2"
+set single_gpr = true
+
+CREATE OR REPLACE QUERY push_large_tuple_single_gpr(INT k){
+TYPEDEF TUPLE<UINT forumID, STRING forumTitle> RESULT;
+HeapAccum<RESULT>(k,forumTitle ASC, forumID ASC) @@result;
+
+forums = SELECT f
+        FROM Forum:f
+        Accum @@result+=RESULT(f.id, f.title);
+
+PRINT @@result.size();
+
+
+}

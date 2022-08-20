@@ -1,0 +1,10 @@
+USE GRAPH ldbc_snb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY order_limit_dist(INT k)
+{
+    forums = SELECT f 
+        FROM Forum:f
+        ORDER BY f.id
+        LIMIT k;
+}

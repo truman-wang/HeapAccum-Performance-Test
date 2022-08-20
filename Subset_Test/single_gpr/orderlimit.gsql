@@ -1,0 +1,11 @@
+USE GRAPH ldbc_snb
+SET syntax_version="v2"
+set single_gpr = true
+
+CREATE OR REPLACE QUERY order_limit_single_gpr(INT k)
+{
+    forums = SELECT f 
+        FROM Forum:f
+        ORDER BY f.id
+        LIMIT k;
+}

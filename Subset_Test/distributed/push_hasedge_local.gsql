@@ -1,0 +1,11 @@
+USE GRAPH ldbc_snb
+SET syntax_version="v2"
+
+CREATE OR REPLACE DISTRIBUTED QUERY push_hadedge_local_dist(INT k){
+TYPEDEF TUPLE<UINT postID,UINT postLength, STRING postIP> RESULT;
+HeapAccum<RESULT>(k, postID ASC) @result;
+
+forums = SELECT f
+        FROM Forum:f -(CONTAINER_OF>)- Post:p
+        Accum f.@result += RESULT(p.id, p.length, p.locationIP);
+}
